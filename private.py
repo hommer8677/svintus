@@ -8,7 +8,7 @@ from aiogram.filters import Command, CommandStart
 private_router = Router()
 private_router.message.filter(F.chat.type == "private")
 
-@private_router.message(CommandStart)
+@private_router.message(CommandStart())
 async def start(message: types.Message):
     await message.answer("Это бот для игры в \"Свинтус\" c друзьями!\n"
                          "Чтобы присоединиться к игре введи код комнаты: ")
