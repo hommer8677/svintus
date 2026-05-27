@@ -6,7 +6,7 @@ from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats, BotCommand
 from aiogram import F, types
 
 from private import private_router
-#from group import group_router
+from group import group_router
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -20,16 +20,13 @@ async def setup_bot_commands(bot: Bot):
     )
     await bot.set_my_commands(
         commands=[
-            BotCommand(command="help", description="Помощь по командам"),
-            BotCommand(command="add", description="Добавить banword"), 
-            BotCommand(command="del", description="Удалить banword"),
-            BotCommand(command="banwords", description="Показать список запрещенных слов")
+            BotCommand(command="game", description="Начать игру")
         ],
         scope=BotCommandScopeAllGroupChats()
     )
 
 async def main():
-    dp.include_routers(private_router)
+    dp.include_routers(private_router, group_router)
     await setup_bot_commands(bot)
     await dp.start_polling(bot)
 if __name__ == "__main__":
