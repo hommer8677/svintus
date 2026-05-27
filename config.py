@@ -3,7 +3,7 @@ import random, json
 DATA_FILE = "/app/data/game_db.json"
 
 def code_generate() -> int:
-    code = [random.randint(1, 10) for _ in range(6)].join()
+    code = [random.randint(1, 10) for _ in range(6)]
     return int("".join(map(str, code)))
 
 def append_group(chat_id: str, code: int):
