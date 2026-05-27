@@ -15,5 +15,6 @@ async def create_code(message: types.Message):
     code = code_generate()
     chat_id = str(message.chat.id)
 
-    msg = append_group(chat_id, code)
-    await message.answer(msg)
+    res = append_group(chat_id, code)
+    if(res != 1): return await message.answer(f"Игра уже началась! Код игры: <code>{res}</code>", parse_mode='HTML')
+    await message.answer(f"Комната создана! Код комнаты: <code>{code}</code>", parse_mode='HTML')
