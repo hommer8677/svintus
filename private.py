@@ -20,7 +20,7 @@ async def help(message: types.Message):
     pass
 @private_router.message(F.text.isdigit())
 async def join_room(message: types.Message):
-    username = message.from_user.full_name or message.from_user.first_name
+    username = message.from_user.username or message.from_user.first_name
     res: ReturnObject = add_player(username, int(message.text))
     await message.answer(res.message)
     lst = get_players(res.chat_id)

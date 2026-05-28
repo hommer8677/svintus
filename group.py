@@ -16,8 +16,13 @@ async def create_code(message: types.Message):
     chat_id = str(message.chat.id)
 
     res = append_group(chat_id, code)
-    if(res != 1): return await message.answer(f"Игра уже началась! Код игры: <code>{res}</code>", parse_mode='HTML')
-    await message.answer(f"Комната создана! Код комнаты: <code>{code}</code>", parse_mode='HTML')
+    if(res != 1): await message.answer(f"Игра уже началась! Код игры: <code>{res}</code>", parse_mode='HTML')
+    else: await message.answer(f"Комната создана! Код комнаты: <code>{code}</code>", parse_mode='HTML')
+    players = get_players()
+    text = f"Зарегестрированых участников: {len(players)}"
+    if players:
+        text += ['\n@'+i for i in players]
+    await message.answer(text, disable_notification=True)
 @group_router.message(Command("stop"))
 async def stop(message: types.Message):
     players: list = get_players(str(message.chat.id))
