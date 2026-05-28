@@ -1,5 +1,4 @@
 import random, json
-from group import stop
 
 DATA_FILE = "/app/data/game_db.json"
 
