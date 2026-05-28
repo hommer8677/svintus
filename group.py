@@ -19,7 +19,7 @@ async def create_code(message: types.Message):
     if(res != 1): text = f"Игра уже началась! Код игры: <code>{res}</code>"
     else: text = f"Комната создана! Код комнаты: <code>{code}</code>"
     players = get_players(chat_id)
-    text += f"\nЗарегестрированых участников: {len(players)}"
+    text += f"\n\nЗарегестрированых участников: {len(players)}"
     if players:
         text += "".join(['\n@'+i for i in players])
     return await message.answer(text, disable_notification=True, parse_mode='HTML')
