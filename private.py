@@ -5,6 +5,8 @@ from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats, BotCommand
 from aiogram import F, types
 from aiogram.filters import Command, CommandStart
 
+from config import add_player, get_players, ReturnObject
+
 private_router = Router()
 private_router.message.filter(F.chat.type == "private")
 
@@ -18,5 +20,8 @@ async def help(message: types.Message):
     pass
 @private_router.message(F.text.isdigit())
 async def join_room(message: types.Message):
-    print('это цифры')
-    await message.answer("Вы присоединились к комнате с кодом: " + message.text)
+    username = message.from_user.full_name or message.from_user.first_name
+    res: ReturnObject = add_player(username, int(message.text))
+    await message.answer(res.message)
+    lst = get_players(res.chat_id)
+    if len(lst) == 8 and username in lst: await Bot.send_message(chat_id=res.chat_id, text="В комнате максимальное количество игроков\nМожно начинать игру")

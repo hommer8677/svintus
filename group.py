@@ -5,7 +5,7 @@ from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats, BotCommand
 from aiogram import F, types
 from aiogram.filters import Command, CommandStart
 
-from config import *
+from config import code_generate, append_group, get_players
 
 group_router = Router()
 group_router.message.filter(F.chat.type.in_({"group", "supergroup"}))
@@ -18,3 +18,7 @@ async def create_code(message: types.Message):
     res = append_group(chat_id, code)
     if(res != 1): return await message.answer(f"Игра уже началась! Код игры: <code>{res}</code>", parse_mode='HTML')
     await message.answer(f"Комната создана! Код комнаты: <code>{code}</code>", parse_mode='HTML')
+@group_router.message(Command("stop"))
+async def stop(message: types.Message):
+    players: list = get_players(str(message.chat.id))
+    if len(players) in {0,1}: return await message.answer("В игре зарегестрировано недостаточно учаcтников")
