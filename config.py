@@ -12,12 +12,19 @@ def code_generate() -> int:
     return int("".join(map(str, code)))
 
 def append_group(chat_id: str, code: int):
-    with open(DATA_FILE, encoding='utf-8') as file:
-        data = json.load(file)
-    if chat_id in data.keys(): return data[chat_id]
+    with open(DATA_FILE, "r", encoding="utf-8") as file:
+        try:
+            data = json.load(file)
+        except json.JSONDecodeError:
+            data = {}
     
-    data[chat_id]["code"] = code
-    data[chat_id]["players"] = list()
+    if chat_id in data.keys(): return data[chat_id]["code"]
+
+    data[chat_id] = {
+        "code": code,
+        "players": []
+    }
+
     with open(DATA_FILE, "w", encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
     return 1
