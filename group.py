@@ -21,7 +21,7 @@ async def create_code(message: types.Message):
     players = get_players(chat_id)
     text = f"Зарегестрированых участников: {len(players)}"
     if players:
-        text += ['\n@'+i for i in players]
+        text += "".join(['\n@'+i for i in players])
     await message.answer(text, disable_notification=True)
 @group_router.message(Command("stop"))
 async def stop(message: types.Message):
