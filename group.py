@@ -21,9 +21,9 @@ async def create_code(message: types.Message):
     players = get_players(chat_id)
     text += f"\n\nЗарегестрированых участников: {len(players)}"
     if players:
-        text += "".join(['\n@'+i for i in players])
+        text += "".join(['\n@'+i for i in players.keys()])
     return await message.answer(text, disable_notification=True, parse_mode='HTML')
 @group_router.message(Command("stop"))
 async def stop(message: types.Message):
-    players: list = get_players(str(message.chat.id))
+    players: dict = get_players(str(message.chat.id))
     if len(players) in {0,1}: return await message.answer("В игре зарегестрировано недостаточно учаcтников")

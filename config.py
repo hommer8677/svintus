@@ -22,7 +22,7 @@ def append_group(chat_id: str, code: int):
 
     data[chat_id] = {
         "code": code,
-        "players": []
+        "players": {}
     }
 
     with open(DATA_FILE, "w", encoding='utf-8') as file:
@@ -36,20 +36,20 @@ def delete_group(chat_id: str):
         data.pop(chat_id)
         with open(DATA_FILE, "w", encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-def add_player(username: str, code: int) -> ReturnObject:
+def add_player(username: str, id:int, code: int) -> ReturnObject:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
     result: ReturnObject = ReturnObject("Игра не найдена")
     for group in data.keys():
-        if username in data[group]["players"]:
+        if username in data[group]["players"].keys():
                 result.message = "Ты уже состоишь в игре"
                 break
         if data[group]["code"] == code:
             if len(data[group]["players"]) >=8: 
                 result.message = f"Максимум 8 игроков"
                 break
-            if username not in data[group]["players"]:
-                data[group]["players"].append(username)
+            if username not in data[group]["players"].keys():
+                data[group]["players"][username] = id
                 result.message = f"Теперь ты состоишь в игре! Жди начала"
                 result.chat_id = int(group)
                 break
@@ -57,7 +57,7 @@ def add_player(username: str, code: int) -> ReturnObject:
         json.dump(data, file, ensure_ascii=False, indent=4)
     return result
 
-def get_players(chat_id: str):
+def get_players(chat_id: str) -> dict:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
     if data[chat_id]: return data[chat_id]["players"]
