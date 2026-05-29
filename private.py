@@ -21,7 +21,7 @@ async def help(message: types.Message):
 @private_router.message(F.text.isdigit())
 async def join_room(message: types.Message, bot: Bot):
     username = message.from_user.username or message.from_user.first_name
-    res: ReturnObject = add_player(username, int(message.text))
+    res: ReturnObject = add_player(username, message.from_user.id, int(message.text))
     await message.answer(res.message)
     players: dict = get_players(str(res.chat_id))
     if len(players) == 8 and username in players.keys(): await bot.send_message(chat_id=res.chat_id, text="В комнате максимальное количество игроков\nМожно начинать игру")

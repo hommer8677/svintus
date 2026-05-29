@@ -60,4 +60,4 @@ def add_player(username: str, id:int, code: int) -> ReturnObject:
 def get_players(chat_id: str) -> dict:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
-    if data[chat_id]: return data[chat_id]["players"]
+    if data[chat_id]["players"]: return data[chat_id]["players"]
