@@ -54,7 +54,7 @@ async def handle_stop_registration(callback: types.CallbackQuery, bot: Bot):
             show_alert=True # Покажет всплывающее окошко по центру экрана
         )
     
-    players_dict = get_players(chat_id)
+    players_dict = get_players(str(chat_id))
     if len(players_dict) < 2:
         return await callback.answer(
             "❌ Нельзя начать игру! Нужно минимум 2 игрока.", 
