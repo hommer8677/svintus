@@ -23,5 +23,5 @@ async def join_room(message: types.Message):
     username = message.from_user.username or message.from_user.first_name
     res: ReturnObject = add_player(username, int(message.text))
     await message.answer(res.message)
-    lst = get_players(res.chat_id)
+    lst = get_players(str(res.chat_id))
     if len(lst) == 8 and username in lst: await Bot.send_message(chat_id=res.chat_id, text="В комнате максимальное количество игроков\nМожно начинать игру")

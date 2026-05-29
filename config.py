@@ -57,7 +57,7 @@ def add_player(username: str, code: int) -> ReturnObject:
         json.dump(data, file, ensure_ascii=False, indent=4)
     return result
 
-def get_players(chat_id):
+def get_players(chat_id: str):
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
     if data[chat_id]: return data[chat_id]["players"]
