@@ -18,7 +18,7 @@ def append_group(chat_id: str, code: int):
         except json.JSONDecodeError:
             data = {}
     
-    if chat_id in data.keys(): return data[chat_id]["code"]
+    if chat_id in data: return data[chat_id]["code"]
 
     data[chat_id] = {
         "code": code,
@@ -33,7 +33,7 @@ def append_group(chat_id: str, code: int):
 def delete_group(chat_id: str):
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
-    if chat_id in data.keys():
+    if chat_id in data:
         data.pop(chat_id)
         with open(DATA_FILE, "w", encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
@@ -41,15 +41,15 @@ def add_player(username: str, id:int, code: int) -> ReturnObject:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
     result: ReturnObject = ReturnObject("Игра не найдена")
-    for group in data.keys():
-        if username in data[group]["players"].keys():
+    for group in data:
+        if username in data[group]["players"]:
                 result.message = "Ты уже состоишь в игре"
                 break
         if data[group]["code"] == code:
             if len(data[group]["players"]) >=8: 
                 result.message = f"Максимум 8 игроков"
                 break
-            if username not in data[group]["players"].keys():
+            if username not in data[group]["players"]:
                 data[group]["players"][username] = id
                 result.message = f"Теперь ты состоишь в игре! Жди начала"
                 result.chat_id = int(group)
@@ -61,7 +61,7 @@ def add_player(username: str, id:int, code: int) -> ReturnObject:
 def stop_register(chat_id: str):
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
-    if chat_id in data.keys() and data[chat_id]["stop"] != True: 
+    if chat_id in data and data[chat_id]["stop"] != True: 
         data[chat_id]["stop"] = True
         with open(DATA_FILE, "w", encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
@@ -73,4 +73,4 @@ def get_register_status(chat_id: str) -> bool:
 def get_players(chat_id: str) -> dict:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
-    if data[chat_id]["players"]: return data[chat_id]["players"]
+    if chat_id in data and data[chat_id]["players"]: return data[chat_id]["players"]
