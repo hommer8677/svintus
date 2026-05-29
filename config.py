@@ -22,7 +22,8 @@ def append_group(chat_id: str, code: int):
 
     data[chat_id] = {
         "code": code,
-        "players": {}
+        "players": {},
+        "stop": False
     }
 
     with open(DATA_FILE, "w", encoding='utf-8') as file:
