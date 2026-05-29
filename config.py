@@ -73,4 +73,4 @@ def get_register_status(chat_id: str) -> bool:
 def get_players(chat_id: str) -> dict:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
-    if chat_id in data and data[chat_id]["players"]: return data[chat_id]["players"]
+    if chat_id in data: return data[chat_id]["players"]
