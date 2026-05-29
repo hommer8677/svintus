@@ -19,9 +19,9 @@ async def help(message: types.Message):
     await message.answer("Правила игры в \"Свинтус\": \n")
     pass
 @private_router.message(F.text.isdigit())
-async def join_room(message: types.Message):
+async def join_room(message: types.Message, bot: Bot):
     username = message.from_user.username or message.from_user.first_name
     res: ReturnObject = add_player(username, int(message.text))
     await message.answer(res.message)
     lst = get_players(str(res.chat_id))
-    if len(lst) == 8 and username in lst: await Bot.send_message(chat_id=res.chat_id, text="В комнате максимальное количество игроков\nМожно начинать игру")
+    if len(lst) == 8 and username in lst: await bot.send_message(chat_id=res.chat_id, text="В комнате максимальное количество игроков\nМожно начинать игру")
