@@ -63,7 +63,7 @@ async def handle_stop_registration(callback: types.CallbackQuery, bot: Bot):
     await callback.message.edit_reply_markup(reply_markup=None)
     await callback.message.answer(
         f"🏁 Регистрация завершена администратором!\n"
-        f"Игроков в игре: {len(players_dict)}. Рассылаю карты в ЛС..."
+        f"Игроков в игре: {len(players_dict)}.{["\n"+i for i in players_dict.keys()]} \nРассылаю карты в ЛС..."
     )
     for name, p_id in players_dict.items():
         try:
