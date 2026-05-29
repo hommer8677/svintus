@@ -57,6 +57,18 @@ def add_player(username: str, id:int, code: int) -> ReturnObject:
         json.dump(data, file, ensure_ascii=False, indent=4)
     return result
 
+def stop_register(chat_id: str):
+    with open(DATA_FILE, encoding='utf-8') as file:
+        data = json.load(file)
+    if chat_id in data.keys() and data[chat_id]["stop"] != True: 
+        data[chat_id]["stop"] = True
+        with open(DATA_FILE, "w", encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+def get_register_status(chat_id: str) -> bool:
+    with open(DATA_FILE, encoding='utf-8') as file:
+        data = json.load(file)
+    return data[chat_id]["stop"]
+
 def get_players(chat_id: str) -> dict:
     with open(DATA_FILE, encoding='utf-8') as file:
         data = json.load(file)
